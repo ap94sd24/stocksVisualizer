@@ -1,0 +1,21 @@
+:root {
+  --primary-color: #11cf21;
+  --dark-color: #033606;
+  --light-color: #f4f4f4;
+  --danger-color: #c21022;
+  --success-color: #85f109;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+}

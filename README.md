@@ -1,8 +1,8 @@
-## MERN_BOILPLATE
-A template for developing MERN stack projects 
+## Stocks Visualizer
+A way to visualize listings and changes through the day in real time.
 
 ## Motivation 
-Created as a way to shorten development time in initial setup 
+Created as a mean to see which stocks to invest or find trends in stock performances
 
 ## Build Status 
 WIP

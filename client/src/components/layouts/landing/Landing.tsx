@@ -1,9 +1,8 @@
 import React from 'react'
-
+import './Landing.scss';
 const Landing = () => {
   return (
     <section className='landing'>
-      <p>TEST</p>
     </section>
   )
 }

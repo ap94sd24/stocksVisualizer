@@ -19,3 +19,18 @@ body {
   background-color: #fff;
   color: #333;
 }
+
+html, #root {
+  background-color: #acd1af;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+

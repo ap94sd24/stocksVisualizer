@@ -1,9 +1,9 @@
 :root {
-  --primary-color: #11cf21;
+  --primary-color: #00b80f;
   --dark-color: #033606;
   --light-color: #f4f4f4;
   --danger-color: #c21022;
-  --success-color: #85f109;
+  --success-color: #81df15;
 }
 
 * {
@@ -32,5 +32,24 @@ a {
 ul {
   list-style: none;
 }
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  overflow: scroll !important;
+  padding: 0 2rem;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 700px) {
+  .container {
+    margin-top: 8rem;
+    overflow: auto !important;
+  }
+}
+
+
+
 
 

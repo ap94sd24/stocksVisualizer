@@ -1,14 +1,18 @@
 .navbar {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
   position: fixed;
   z-index: 1;
   width: 100%;
-  border-bottom: solid 2px var(--primary-color);
+  top: 0;
+  border-bottom: solid 1px var(--primary-color);
   opacity: 0.9;
 }
 
 .navbar a {
-  color: rgb(118, 172, 32);
+  color: rgb(101, 158, 8);
   padding: 0.45rem;
   margin: 0 0.25rem;
 }
@@ -16,4 +20,14 @@
 .navbar a:hover {
   color: var(--primary-color);
   text-decoration: none;
+}
+
+.navbar ul {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+ul {
+  list-style: none;
 }

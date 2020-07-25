@@ -1,0 +1,3 @@
+export const GET_TICKERS = 'GET_TICKERS';
+export const CLEAR_TICKERS = 'CLEAR_TICKERS';
+export const TICKERS_ERROR = 'TICKERS_ERROR'; 

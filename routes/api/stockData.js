@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
 const axios = require('axios');
 
 const cors = require('cors');
@@ -17,18 +16,31 @@ const timePeriod = require('../../config/constants');
 
 /**
  * Get a stock with type and ticker passed in
- * @route: POST
+ * @route: GET
  */
-router.post('/stock', cors(), async (req, res) => {
-  const body = JSON.parse(JSON.stringify(req.body));
-  const { ticker, type } = req.body;
-  console.log('Ticker is: ' + body.ticker);
-  console.log('type: ' + timePeriod(type));
+router.get('/stock/:type/:symbol', cors(), async (req, res) => {
   try {
     const api_res = await axios.get(
       `https://www.alphavantage.co/query?function=${timePeriod(
-        type
-      )}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+        req.params.type
+      )}&symbol=${req.params.symbol}&apikey=${
+        process.env.ALPHA_VANTAGE_API_KEY
+      }`
+    );
+    res.json(Object.values(api_res.data)[1]);
+  } catch (err) {
+    console.error('Error message: ' + JSON.stringify(err, null, 2));
+  }
+});
+
+/**
+ * Get company overview for stock
+ * @route: GET
+ */
+router.get('/company/:symbol', cors(), async (req, res) => {
+  try {
+    const api_res = await axios.get(
+      `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${req.params.symbol}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
     res.json(api_res.data);
   } catch (err) {
@@ -39,13 +51,15 @@ router.post('/stock', cors(), async (req, res) => {
 /**
  * Get intraday stock with type and ticker passed in
  */
-router.post('/intraday', cors(), async(req, res) => {
+router.post('/intraday', cors(), async (req, res) => {
   const body = JSON.stringify(JSON.stringify(req.body));
-  const {ticker, interval } = req.body;
+  const { ticker, interval } = req.body;
   console.log('Ticker is: ' + body.ticker);
   console.log('interval: ' + body.interval);
   try {
-    const api_res = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`);
+    const api_res = await axios.get(
+      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+    );
     res.json(api_res.data);
   } catch (err) {
     console.error('Error message: ' + JSON.stringify(err, null, 2));
@@ -53,35 +67,40 @@ router.post('/intraday', cors(), async(req, res) => {
 });
 
 /**
- * Get search match from api 
+ * Get search match from api
  */
 router.get('/search/:keywords', cors(), async (req, res) => {
   console.log('Query: ' + req.params.keywords);
   try {
-    const api_res = await axios.get(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${req.params.keywords}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`);
-    res.json(api_res.data);  
+    const api_res = await axios.get(
+      `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${req.params.keywords}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+    );
+    res.json(api_res.data);
   } catch (err) {
     console.error('Error: ' + JSON.stringify(err, null, 2));
   }
 });
 
 /**
- * Get trending stocks from yahoo finance 
+ * Get trending stocks from yahoo finance
  */
-router.get('/trending/stocks', cors(), async(req, res) => {
+router.get('/trending/stocks', cors(), async (req, res) => {
   const config = {
     headers: {
       'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
       'x-rapidapi-key': process.env.RAPID_API_KEY,
-      'useQueryString': true
+      useQueryString: true,
     },
     params: {
-      'region': 'US'
-    }
+      region: 'US',
+    },
   };
   try {
-    const api_res = await axios.get('https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-trending-tickers', config);
-    res.json(api_res.data);
+    const api_res = await axios.get(
+      'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/get-trending-tickers',
+      config
+    );
+    res.json(api_res.data.finance.result[0].quotes);
   } catch (error) {
     console.error('ERROR: ' + JSON.stringify(error, null, 2));
   }
@@ -125,7 +144,11 @@ router.post('/unlimited_stocks', cors(), async (req, res) => {
   console.log('Body: ' + body.tickers);
   await tickers.forEach(async (ticker, idx) => {
     setTimeout(async () => {
-      const request = await axios.get(`https://www.alphavantage.co/query?function=${timePeriod(type)}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`);
+      const request = await axios.get(
+        `https://www.alphavantage.co/query?function=${timePeriod(
+          type
+        )}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+      );
       const data = await request.data;
       stocksHolder.push(Object.values(data));
       console.log('Stock array: ' + stocksHolder);
@@ -136,7 +159,5 @@ router.post('/unlimited_stocks', cors(), async (req, res) => {
     }, idx * 12000);
   });
 });
-
-
 
 module.exports = router;

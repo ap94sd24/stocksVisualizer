@@ -12,12 +12,25 @@ const TickerItem = ({
   },
 }: any) => {
   const type = 'daily';
+  const tickerInfo: any = {
+    symbol: symbol,
+    name: longName,
+    price: regularMarketPrice,
+    change: regularMarketChange,
+    changePercent: regularMarketChangePercent,
+  };
   return (
     <tr>
       <th scope='col'>{symbol}</th>
       <th>
         {' '}
-        <Link to={`/stock/${type}/${symbol}`} className='itemLink'>
+        <Link
+          to={{
+            pathname: `/stock/${type}/${symbol}`,
+            state: {ticker: tickerInfo},
+          }}
+          className='itemLink'
+        >
           {' '}
           {longName}{' '}
         </Link>

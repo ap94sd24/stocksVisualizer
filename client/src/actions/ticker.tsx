@@ -4,7 +4,8 @@ import {
   CLEAR_TICKERS,
   GET_STOCK,
   GET_COMPANY,
-  TICKERS_ERROR
+  GET_SUMMARY,
+  TICKERS_ERROR,
 } from './types';
 
 export const getTickers = () => async (dispatch: any) => {
@@ -16,18 +17,24 @@ export const getTickers = () => async (dispatch: any) => {
       sessionStorage.setItem('tickers_list', JSON.stringify(res.data));
       dataArray = res.data;
     } else {
-      let listString: any = sessionStorage.getItem('tickers_list') === null ? '' : sessionStorage.getItem('tickers_list');
+      let listString: any =
+        sessionStorage.getItem('tickers_list') === null
+          ? ''
+          : sessionStorage.getItem('tickers_list');
       const data = JSON.parse(listString);
       dataArray = data;
     }
     dispatch({
       type: GET_TICKERS,
-      payload: dataArray
+      payload: dataArray,
     });
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };
@@ -39,27 +46,53 @@ export const getPollingTickers = () => async (dispatch: any) => {
     sessionStorage.setItem('tickers_list', JSON.stringify(res.data));
     dispatch({
       type: GET_TICKERS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };
 
-export const getStockInfoTimeSeries = (type: string, symbol: string) => async (dispatch: any) => {
+export const getStockInfoTimeSeries = (type: string, symbol: string) => async (
+  dispatch: any
+) => {
   try {
     const res = await axios.get(`/api/stockData/stock/${type}/${symbol}`);
     dispatch({
       type: GET_STOCK,
-      payload: res.data
-    })
+      payload: res.data,
+    });
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getTickerSummary = (symbol: string) => async (dispatch: any) => {
+  try {
+    const res = await axios.get(`/api/stockData/summary/${symbol}`);
+    dispatch({
+      type: GET_SUMMARY,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: TICKERS_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };
@@ -69,12 +102,15 @@ export const getCompanyInfo = (symbol: string) => async (dispatch: any) => {
     const res = await axios.get(`/api/stockData/company/${symbol}`);
     dispatch({
       type: GET_COMPANY,
-      payload: res.data
-    })
+      payload: res.data,
+    });
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };

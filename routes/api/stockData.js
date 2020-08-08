@@ -81,6 +81,17 @@ router.get('/search/:keywords', cors(), async (req, res) => {
   }
 });
 
+router.get('/quote/:symbol', cors(), async (req, res) => {
+  try {
+    const api_res = await axios.get(
+      `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${req.params.symbol}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+    );
+    res.json(api_res.data);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 /**
  * Get trending stocks from yahoo finance
  */
@@ -101,6 +112,32 @@ router.get('/trending/stocks', cors(), async (req, res) => {
       config
     );
     res.json(api_res.data.finance.result[0].quotes);
+  } catch (error) {
+    console.error('ERROR: ' + JSON.stringify(error, null, 2));
+  }
+});
+
+/**
+ * Get stock summary from yahoo finance
+ */
+router.get('/summary/:symbol', cors(), async (req, res) => {
+  const config = {
+    headers: {
+      'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
+      'x-rapidapi-key': process.env.RAPID_API_KEY,
+      useQueryString: true,
+    },
+    params: {
+      region: 'US',
+      symbol: req.params.symbol,
+    },
+  };
+  try {
+    const api_res = await axios.get(
+      'https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary',
+      config
+    );
+    res.json(api_res.data);
   } catch (error) {
     console.error('ERROR: ' + JSON.stringify(error, null, 2));
   }

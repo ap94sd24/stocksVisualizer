@@ -1,24 +1,37 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getStockInfoTimeSeries, getCompanyInfo } from '../../actions/ticker';
+import { getTickerSummary } from '../../actions/ticker';
+import './Stock.scss';
 
-const Stock = ({
-  getStockInfoTimeSeries,
-  ticker: { ticker, company },
-  match,
-}: any) => {
-  useEffect(() => {
+const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
+  /*useEffect(() => {
     getStockInfoTimeSeries(match.params.type, match.params.symbol);
-  }, [getStockInfoTimeSeries, match.params.type, match.params.symbol]);
-  console.log('Ticker: ' + JSON.stringify(ticker, null, 2));
-  //console.log('TICKER IS: ' + JSON.stringify(Object.values(ticker)[1], null, 2));
+  }, [match.params.type, match.params.symbol]); */
+
+  useEffect(() => {
+    getTickerSummary(match.params.symbol);
+  }, [match.params.symbol]);
+
+  const headerData = summary?.price;
+  const marketChange: number = headerData?.regularMarketChange.raw;
+  const changePercent: number = headerData?.regularMarketChangePercent.raw;
+
+
   return (
     <Fragment>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-sm-12 col-md-6 mb-4'>TEST1</div>
-          <div className='col-sm-12 col-md-6'>TEST2</div>
+      <h1>
+        {headerData?.shortName}. {'('} {match.params.symbol} {')'}
+      </h1>
+      <div className='row'>
+        <div className='col-12 mt-3'>
+          <span className='marketPrice'>{headerData?.regularMarketPrice.raw}</span>
+          <span className={marketChange > 0 ? 'marketChange' : 'negativeChange'}>
+            {headerData?.regularMarketChange.raw}
+          </span>
+          <span  className={changePercent > 0 ? 'marketChange' : 'negativeChange'}>
+            {'('} {headerData?.regularMarketChangePercent.raw} {'%)'}
+          </span>
         </div>
       </div>
     </Fragment>
@@ -26,18 +39,14 @@ const Stock = ({
 };
 
 Stock.propTypes = {
-  getStockInfoTimeSeries: PropTypes.func.isRequired,
-  getCompanyInfo: PropTypes.func.isRequired,
-  ticker: PropTypes.object.isRequired,
-  company: PropTypes.object.isRequired,
+  getTickerSummary: PropTypes.func.isRequired,
+  summary: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state: any) => ({
-  ticker: state.ticker,
-  company: state.company,
+  summary: state.ticker,
 });
 
 export default connect(mapStateToProps, {
-  getStockInfoTimeSeries,
-  getCompanyInfo,
+  getTickerSummary,
 })(Stock);

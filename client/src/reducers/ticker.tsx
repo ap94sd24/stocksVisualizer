@@ -4,6 +4,8 @@ import {
   GET_STOCK,
   GET_COMPANY,
   GET_SUMMARY,
+  GET_INTRADAY,
+  INTRADAY_ERROR,
   TICKERS_ERROR,
 } from '../actions/types';
 
@@ -11,6 +13,7 @@ const initialState = {
   ticker: null,
   company: null,
   summary: null,
+  intraday: null,
   tickers: [],
   error: {},
 };
@@ -28,6 +31,11 @@ export default function (state = initialState, action: any) {
         ...state,
         company: payload,
       };
+    case GET_INTRADAY:
+      return {
+        ...state,
+        intraday: payload,
+      };
     case GET_SUMMARY:
       return {
         ...state,
@@ -39,6 +47,7 @@ export default function (state = initialState, action: any) {
         tickers: payload,
       };
     case TICKERS_ERROR:
+    case INTRADAY_ERROR:
       return {
         ...state,
         error: payload,
@@ -48,6 +57,7 @@ export default function (state = initialState, action: any) {
         ...state,
         ticker: null,
         company: null,
+        intraday: null,
         summary: null,
         tickers: [],
       };

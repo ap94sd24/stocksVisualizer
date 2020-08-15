@@ -8,7 +8,7 @@ const Routes = () => {
     <section className='container'>
       <Switch>
         <Route exact path='/tickers' component={TickersListing} />
-        <Route exact path='/stock/:type/:symbol' component={Stock} />
+        <Route exact path='/stock/:symbol' component={Stock} />
       </Switch>
     </section>
   );

@@ -51,14 +51,11 @@ router.get('/company/:symbol', cors(), async (req, res) => {
 /**
  * Get intraday stock with type and ticker passed in
  */
-router.post('/intraday', cors(), async (req, res) => {
-  const body = JSON.stringify(JSON.stringify(req.body));
-  const { ticker, interval } = req.body;
-  console.log('Ticker is: ' + body.ticker);
-  console.log('interval: ' + body.interval);
+router.get('/intraday/:symbol', cors(), async (req, res) => {
+  const interval = '5min';
   try {
     const api_res = await axios.get(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.symbol}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
     res.json(api_res.data);
   } catch (err) {

@@ -11,7 +11,7 @@ const TickerItem = ({
     regularMarketChangePercent,
   },
 }: any) => {
-  const type = 'daily';
+  //const type = 'daily';
   const tickerInfo: any = {
     symbol: symbol,
     name: longName,
@@ -26,7 +26,7 @@ const TickerItem = ({
         {' '}
         <Link
           to={{
-            pathname: `/stock/${type}/${symbol}`,
+            pathname: `/stock/${symbol}`,
             state: {ticker: tickerInfo},
           }}
           className='itemLink'

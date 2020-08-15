@@ -5,6 +5,8 @@ import {
   GET_STOCK,
   GET_COMPANY,
   GET_SUMMARY,
+  GET_INTRADAY,
+  INTRADAY_ERROR,
   TICKERS_ERROR,
 } from './types';
 
@@ -71,6 +73,26 @@ export const getStockInfoTimeSeries = (type: string, symbol: string) => async (
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getYesterdayTimeSeries = (symbol: string) => async (
+  dispatch: any
+) => {
+  try {
+    const res = await axios.get(`/api/stockData/intraday/${symbol}`);
+    dispatch({
+      type: GET_INTRADAY,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: INTRADAY_ERROR,
       payload: {
         msg: error.response.statusText,
         status: error.response.status,

@@ -1,19 +1,84 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { getYesterdayTimeSeries } from '../../actions/ticker';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Line } from 'react-chartjs-2';
 
 const TickerGraph = ({
   getYesterdayTimeSeries,
   intraday: { intraday },
   match,
 }: any) => {
+  const [chartData, setChartData] = useState({});
+
+  const chart = () => {
+    setChartData({
+      labels: intraday?.labels,
+      datasets: [
+        {
+          label: 'Price Change in USD',
+          data: intraday?.values,
+          backgroundColor: ['rgba(75,192,192, 0.6)'],
+          borderWidth: 2,
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    chart();
+  }, [intraday]);
+
   useEffect(() => {
     getYesterdayTimeSeries(match.params.symbol);
   }, [match.params.symbol]);
-  //console.log('Intraday: ' + JSON.stringify(intraday, null, 2));
   return (
-    <Fragment></Fragment>
+    <Fragment>
+      <div>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            title: {
+              text: 'Intraday Performance (As of Prior Day)',
+              display: true,
+            },
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 10,
+                    beginAtZero: false,
+                  },
+                  gridLines: {
+                    display: false,
+                  },
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Prices (USD)',
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 10,
+                  },
+                  gridLines: {
+                    display: true,
+                  },
+                },
+              ],
+              tooltips: {
+                enabled: false
+              },
+            },
+          }}
+        />
+      </div>
+    </Fragment>
   );
 };
 

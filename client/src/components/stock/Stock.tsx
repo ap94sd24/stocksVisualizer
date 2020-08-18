@@ -28,7 +28,12 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
           ? ''
           : sessionStorage.getItem('ticker_summary');
       summary = JSON.parse(listString);
-      setSummary(summary);
+      if (summary.price.symbol !== match.params.symbol) {
+        getTickerSummary(match.params.symbol);
+        sessionStorage.removeItem('ticker_summary');
+      } else {
+        setSummary(summary);
+      }
     }
   };
   useEffect(() => {
@@ -45,13 +50,23 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
   const headerData = summaryData?.price;
   const marketChange: number = headerData?.regularMarketChange.raw;
   const changePercent: number = headerData?.regularMarketChangePercent.raw;
+
+  const formatTime = (timestamp: number) => {
+    let date = new Date(timestamp * 1000);
+
+    let hours = date.getHours(); 
+    let min = "0" + date.getMinutes();
+    let sec = "0" + date.getSeconds();
+    let formatted = hours + ":" + min.substr(-2) + ":" + sec.substr(-2) + " PST";
+    return formatted;
+  };
   return (
     <Fragment>
       <h1>
-        {headerData?.shortName} {'('} {match.params.symbol} {')'}
+        {headerData?.shortName} {'('} {match.params.symbol} {')'} <br/> <p className="asOfText">As of: {formatTime(headerData?.regularMarketTime)} </p>
       </h1>
       <div className='row'>
-        <div className='col-12 mt-2'>
+        <div className='col-12'>
           <span className='marketPrice'>
             {headerData?.regularMarketPrice.raw}
           </span>

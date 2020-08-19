@@ -54,16 +54,20 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
   const formatTime = (timestamp: number) => {
     let date = new Date(timestamp * 1000);
 
-    let hours = date.getHours(); 
-    let min = "0" + date.getMinutes();
-    let sec = "0" + date.getSeconds();
-    let formatted = hours + ":" + min.substr(-2) + ":" + sec.substr(-2) + " PST";
+    let hours = date.getHours();
+    let min = '0' + date.getMinutes();
+    let sec = '0' + date.getSeconds();
+    let formatted =
+      hours + ':' + min.substr(-2) + ':' + sec.substr(-2) + ' Local Time';
     return formatted;
   };
   return (
     <Fragment>
       <h1>
-        {headerData?.shortName} {'('} {match.params.symbol} {')'} <br/> <p className="asOfText">As of: {formatTime(headerData?.regularMarketTime)} </p>
+        {headerData?.shortName} {'('} {match.params.symbol} {')'} <br />{' '}
+        <p className='asOfText'>
+          As of: {formatTime(headerData?.regularMarketTime)}{' '}
+        </p>
       </h1>
       <div className='row'>
         <div className='col-12'>
@@ -83,6 +87,68 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
         </div>
         <div className='col-12 mt-2'>
           <TickerGraph match={match} />
+        </div>
+        <div className='col-12 mt-3'>
+          <h5>Stats</h5>
+          <div className='row'>
+            <div className='col-6'>
+              <table className='table'>
+                <tbody>
+                  <tr>
+                    <th>Open</th>
+                    <th>{headerData?.regularMarketOpen.raw}</th>
+                  </tr>
+                  <tr>
+                    <th>High</th>
+                    <th>{headerData?.regularMarketDayHigh.raw}</th>
+                  </tr>
+                  <tr>
+                    <th>Low</th>
+                    <th>{headerData?.regularMarketDayLow.raw} </th>
+                  </tr>
+                  <tr>
+                    <th>52 Week High</th>
+                    <th> {summaryData?.summaryDetail.fiftyTwoWeekHigh.fmt}</th>
+                  </tr>
+                  <tr>
+                    <th>52 Week Low</th>
+                    <th>{summaryData?.summaryDetail.fiftyTwoWeekLow.fmt}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className='col-6'>
+              <table className='table'>
+                <tbody>
+                  <tr>
+                    <th>Volume</th>
+                    <th>{summaryData?.price.regularMarketVolume.fmt}</th>
+                  </tr>
+                  <tr>
+                    <th>Average Volume</th>
+                    <th>{summaryData?.summaryDetail.averageVolume.fmt}</th>
+                  </tr>
+                  <tr>
+                    <th>Market Cap.</th>
+                    <th>{headerData?.marketCap.fmt}</th>
+                  </tr>
+                  <tr>
+                    <th>Div/Yield</th>
+                    <th>
+                      {Object.keys(summaryData.summaryDetail.dividendYield)
+                        .length > 0
+                        ? summaryData?.summaryDetail.dividendYield.fmt
+                        : '-'}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th>Previous Close</th>
+                      <th>{headerData?.regularMarketPreviousClose.raw}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </Fragment>

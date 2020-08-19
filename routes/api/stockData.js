@@ -48,16 +48,40 @@ router.get('/company/:symbol', cors(), async (req, res) => {
   }
 });
 
+function getIntradayGraphData(obj) {
+  let arr = [];
+  let dataPts = [];
+  let labelPts = [];
+  let relevantObj = obj['Time Series (30min)'];
+  let keys = Object.keys(relevantObj);
+  for (let key in relevantObj) {
+    arr.push(relevantObj[key]);
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].date = keys[i];
+  }
+
+  let filtered = arr.slice(7, 22);
+
+  dataPts = filtered.map((val) => val['4. close']).reverse();
+  labelPts = filtered.map((val) => val['date'].split(' ')[1]).reverse();
+
+  let output = {labels: labelPts, values: dataPts};
+  return output;
+}
+
 /**
  * Get intraday stock with type and ticker passed in
  */
 router.get('/intraday/:symbol', cors(), async (req, res) => {
-  const interval = '5min';
+  const interval = '30min';
   try {
     const api_res = await axios.get(
       `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.symbol}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
-    res.json(api_res.data);
+    let output = getIntradayGraphData(api_res.data);
+    res.json(output);
   } catch (err) {
     console.error('Error message: ' + JSON.stringify(err, null, 2));
   }

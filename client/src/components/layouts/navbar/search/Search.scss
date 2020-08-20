@@ -1,0 +1,41 @@
+input[type='text'] {
+  width: 120px;
+  background-color: transparent;
+  color: white;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  padding-left: 30px;
+}
+
+input[type='text']:focus {
+  width: 100%;
+  outline: none;
+}
+
+.searchIcon {
+  color: white;
+  margin-right: -20px;
+}
+
+@media screen and (max-width: 479px) {
+  input[type='text'] {
+    width: 90%;
+    background-color: transparent;
+    color: white;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    margin-bottom: 1em;
+  }
+  
+  input[type='text']:focus {
+    width: 98%;
+    outline: none;
+  }
+  
+}

@@ -96,7 +96,7 @@ router.get('/search/:keywords', cors(), async (req, res) => {
     const api_res = await axios.get(
       `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${req.params.keywords}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
-    res.json(api_res.data);
+    res.json(api_res.data.bestMatches);
   } catch (err) {
     console.error('Error: ' + JSON.stringify(err, null, 2));
   }

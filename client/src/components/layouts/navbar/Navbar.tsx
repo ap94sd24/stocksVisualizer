@@ -1,10 +1,14 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.scss';
+import Search from './search/Search';
 
 const Navbar = () => {
   const guestLinks = (
     <ul>
+      <li>
+        <Search/>
+      </li>
       <li>
         <Link to='/tickers' >Top Tickers</Link>
       </li>

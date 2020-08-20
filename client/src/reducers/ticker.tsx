@@ -7,6 +7,8 @@ import {
   GET_INTRADAY,
   INTRADAY_ERROR,
   TICKERS_ERROR,
+  GET_SEARCHLIST,
+  SEARCH_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   company: null,
   summary: null,
   intraday: null,
+  searchList: [],
   tickers: [],
   error: {},
 };
@@ -25,6 +28,11 @@ export default function (state = initialState, action: any) {
       return {
         ...state,
         ticker: payload,
+      };
+    case GET_SEARCHLIST:
+      return {
+        ...state,
+        searchList: payload,
       };
     case GET_COMPANY:
       return {
@@ -48,6 +56,7 @@ export default function (state = initialState, action: any) {
       };
     case TICKERS_ERROR:
     case INTRADAY_ERROR:
+    case SEARCH_ERROR:
       return {
         ...state,
         error: payload,
@@ -59,6 +68,7 @@ export default function (state = initialState, action: any) {
         company: null,
         intraday: null,
         summary: null,
+        searchList: [],
         tickers: [],
       };
     default:

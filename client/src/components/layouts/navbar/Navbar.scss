@@ -31,3 +31,10 @@
 ul {
   list-style: none;
 }
+
+@media screen and (max-width: 479px) {
+  .navbar ul {
+    display: block;
+    width: 100vw;
+  }
+}

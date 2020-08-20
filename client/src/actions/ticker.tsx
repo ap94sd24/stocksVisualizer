@@ -7,6 +7,8 @@ import {
   GET_SUMMARY,
   GET_INTRADAY,
   INTRADAY_ERROR,
+  GET_SEARCHLIST,
+  SEARCH_ERROR,
   TICKERS_ERROR,
 } from './types';
 
@@ -33,6 +35,24 @@ export const getTickers = () => async (dispatch: any) => {
   } catch (error) {
     dispatch({
       type: TICKERS_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getSearchMatch = (symbol: string) => async (dispatch: any) => {
+  try {
+    const res = await axios.get(`/api/stockData/search/${symbol}`);
+    dispatch({
+      type: GET_SEARCHLIST,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SEARCH_ERROR,
       payload: {
         msg: error.response.statusText,
         status: error.response.status,

@@ -11,7 +11,6 @@ const TickerItem = ({
     regularMarketChangePercent,
   },
 }: any) => {
-  //const type = 'daily';
   const tickerInfo: any = {
     symbol: symbol,
     name: longName,

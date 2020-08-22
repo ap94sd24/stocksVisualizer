@@ -3,27 +3,25 @@ import './Search.scss';
 import { getSearchMatch } from '../../../../actions/ticker';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 const Search = ({ getSearchMatch, searchList: { searchList } }: any) => {
+  const history = useHistory();
   const [search, setSearch] = useState('');
   const [results, setResults] = useState([]);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
 
-
   useEffect(() => {
     if (search !== '') {
-      //console.log('calls')
       getSearchMatch(debouncedSearch);
-    }  
-    
+    }
   }, [debouncedSearch]);
 
   useEffect(() => {
     if (searchList.length > 0) {
-    //  console.log('hi')
       setResults(searchList);
     }
-  }, [searchList])
+  }, [searchList]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -35,14 +33,12 @@ const Search = ({ getSearchMatch, searchList: { searchList } }: any) => {
     };
   }, [search]);
 
- // console.log('Results: ' + JSON.stringify(results, null, 2));
-  
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
       console.log('Enter hit');
+      history.push( `/search/${search}`);
     }
   };
-
   return (
     <div className='wrapper'>
       <i className='fas fa-search searchIcon'> </i>

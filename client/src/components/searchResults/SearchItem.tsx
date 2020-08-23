@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const SearchItem = ({ entry }: any) => {
-  console.log('entry: ' + JSON.stringify(entry, null, 2));
   return (
     <tr>
       <th scope='col'>{entry['1. symbol']} </th>

@@ -1,15 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTickerSummary, getYesterdayTimeSeries } from '../../actions/ticker';
+import { getTickerSummary } from '../../actions/ticker';
 import TickerGraph from '../tickerGraph/TickerGraph';
 import { TickerSummary } from '../../default/ticker';
 import './Stock.scss';
 
 const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
-  /*useEffect(() => {
-    getStockInfoTimeSeries(match.params.type, match.params.symbol);
-  }, [match.params.type, match.params.symbol]); */
 
   const [summaryData, setSummary] = useState(TickerSummary);
   const twoHoursInterval = 1000 * 60 * 60 * 2;
@@ -51,7 +48,7 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
   const marketChange: number = headerData?.regularMarketChange.raw;
   const changePercent: number = headerData?.regularMarketChangePercent.raw;
 
-  const formatTime = (timestamp: number) => {
+  const formatTime = (timestamp: number): string => {
     let date = new Date(timestamp * 1000);
 
     let hours = date.getHours();
@@ -143,7 +140,7 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
                   </tr>
                   <tr>
                     <th>Previous Close</th>
-                      <th>{headerData?.regularMarketPreviousClose.raw}</th>
+                    <th>{headerData?.regularMarketPreviousClose.raw}</th>
                   </tr>
                 </tbody>
               </table>

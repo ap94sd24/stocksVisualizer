@@ -91,7 +91,6 @@ router.get('/intraday/:symbol', cors(), async (req, res) => {
  * Get search match from api
  */
 router.get('/search/:keywords', cors(), async (req, res) => {
-  console.log('Query: ' + req.params.keywords);
   try {
     const api_res = await axios.get(
       `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${req.params.keywords}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
@@ -197,9 +196,7 @@ router.post('/stocks', cors(), async (req, res) => {
 router.post('/unlimited_stocks', cors(), async (req, res) => {
   const body = JSON.parse(JSON.stringify(req.body));
   const { tickers, type } = body;
-  console.log('Tickers length: ' + tickers.length);
   let stocksHolder = [];
-  console.log('Body: ' + body.tickers);
   await tickers.forEach(async (ticker, idx) => {
     setTimeout(async () => {
       const request = await axios.get(

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './Search.scss';
 import { getSearchMatch } from '../../../../actions/ticker';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import './Search.scss';
 
 const Search = ({ getSearchMatch, searchList: { searchList } }: any) => {
   const history = useHistory();
@@ -35,7 +35,6 @@ const Search = ({ getSearchMatch, searchList: { searchList } }: any) => {
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter') {
-      console.log('Enter hit');
       history.push( `/search/${search}`);
     }
   };

@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 
+interface TickerGraphProps {
+  getYesterdayTimeSeries: () => void;
+  intraday: { intraday: any};
+  match: {params: { symbol: string}}
+}
+
 const TickerGraph = ({
   getYesterdayTimeSeries,
   intraday: { intraday },

@@ -2,41 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const TickerItem = ({
+interface TickerProps {
   ticker: {
-    symbol,
-    longName,
-    regularMarketPrice,
-    regularMarketChange,
-    regularMarketChangePercent,
-  },
-}: any) => {
+    symbol: string;
+    longName: string;
+    regularMarketPrice: number;
+    regularMarketChange: number;
+    regularMarketChangePercent: number;
+  }
+}
+
+const TickerItem: React.SFC<any> = (props: TickerProps) => {
   const tickerInfo: any = {
-    symbol: symbol,
-    name: longName,
-    price: regularMarketPrice,
-    change: regularMarketChange,
-    changePercent: regularMarketChangePercent,
+    symbol: props.ticker.symbol,
+    name: props.ticker.longName,
+    price: props.ticker.regularMarketPrice,
+    change: props.ticker.regularMarketChange,
+    changePercent: props.ticker.regularMarketChangePercent,
   };
   return (
     <tr>
-      <th scope='col'>{symbol}</th>
+      <th scope='col'>{tickerInfo.symbol}</th>
       <th>
         {' '}
         <Link
           to={{
-            pathname: `/stock/${symbol}`,
+            pathname: `/stock/${tickerInfo.symbol}`,
             state: {ticker: tickerInfo},
           }}
           className='itemLink'
         >
           {' '}
-          {longName}{' '}
+          {tickerInfo.name}{' '}
         </Link>
       </th>
-      <th>{regularMarketPrice}</th>
-      <th>{regularMarketChangePercent}</th>
-      <th>{regularMarketChange}</th>
+      <th>{tickerInfo.price}</th>
+      <th>{tickerInfo.change}</th>
+      <th>{tickerInfo.changePercent}</th>
     </tr>
   );
 };

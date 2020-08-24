@@ -4,10 +4,14 @@ import { connect } from 'react-redux';
 import { getTickerSummary } from '../../actions/ticker';
 import TickerGraph from '../tickerGraph/TickerGraph';
 import { TickerSummary } from '../../default/ticker';
+import Spinner from '../layouts/spinner/Spinner';
 import './Stock.scss';
 
-const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
-
+const Stock = ({
+  getTickerSummary,
+  summary: { summary, loading },
+  match,
+}: any) => {
   const [summaryData, setSummary] = useState(TickerSummary);
   const twoHoursInterval = 1000 * 60 * 60 * 2;
 
@@ -58,7 +62,11 @@ const Stock = ({ getTickerSummary, summary: { summary }, match }: any) => {
       hours + ':' + min.substr(-2) + ':' + sec.substr(-2) + ' Local Time';
     return formatted;
   };
-  return (
+  console.log('loading: ' + loading);
+
+  return (summaryData.price.shortName === '') ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <h1>
         {headerData?.shortName} {'('} {match.params.symbol} {')'} <br />{' '}

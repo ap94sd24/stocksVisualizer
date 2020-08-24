@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const SearchItem = ({ entry }: any) => {
+interface ItemProp {
+  entry: any;
+};
+
+const SearchItem = (prop: ItemProp ) => {
+  const entry = prop.entry;
   return (
     <tr>
       <th scope='col'>{entry['1. symbol']} </th>

@@ -16,6 +16,7 @@ const initialState = {
   company: null,
   summary: null,
   intraday: null,
+  loading: true,
   searchList: [],
   tickers: [],
   error: {},
@@ -27,31 +28,37 @@ export default function (state = initialState, action: any) {
     case GET_STOCK:
       return {
         ...state,
+        loading: false,
         ticker: payload,
       };
     case GET_SEARCHLIST:
       return {
         ...state,
+        loading: false,
         searchList: payload,
       };
     case GET_COMPANY:
       return {
         ...state,
+        loading: false,
         company: payload,
       };
     case GET_INTRADAY:
       return {
         ...state,
+        loading: false,
         intraday: payload,
       };
     case GET_SUMMARY:
       return {
         ...state,
+        loading: false,
         summary: payload,
       };
     case GET_TICKERS:
       return {
         ...state,
+        loading: false,
         tickers: payload,
       };
     case TICKERS_ERROR:
@@ -59,6 +66,7 @@ export default function (state = initialState, action: any) {
     case SEARCH_ERROR:
       return {
         ...state,
+        loading: false,
         error: payload,
       };
     case CLEAR_TICKERS:
@@ -68,6 +76,7 @@ export default function (state = initialState, action: any) {
         company: null,
         intraday: null,
         summary: null,
+        loading: false,
         searchList: [],
         tickers: [],
       };

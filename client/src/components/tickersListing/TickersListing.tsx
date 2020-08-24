@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import './TickersListing.scss';
 import TickerItem from './TickerItem';
 import { getTickers, getPollingTickers } from '../../actions/ticker';
+import Spinner from '../layouts/spinner/Spinner';
 
 interface Props {
   getTickers: () => void;
   getPollingTickers: () => void;
-  ticker: {tickers: any[]};
+  ticker: { tickers: any[]; loading: boolean };
 }
 
 const TickersListing: React.SFC<Props> = (props: Props) => {
   const twoHoursInterval = 1000 * 60 * 60 * 2;
   const tickers: any[] = props?.ticker.tickers;
+  const loading = props.ticker.loading;
   useEffect(() => {
     props.getTickers();
     let interval = setInterval(() => {
@@ -30,22 +32,28 @@ const TickersListing: React.SFC<Props> = (props: Props) => {
             <i className='far fa-flag'> Find tickers to follow </i>
           </p>
           <div className='tickers'>
-            <table className='table table-striped table-hover'>
-              <thead>
-                <tr>
-                  <th scope='col'>Symbol</th>
-                  <th scope='col'>Full Name</th>
-                  <th scope='col'>Price (in USD)</th>
-                  <th scope='col'>% Change</th>
-                  <th scope='col'>Market Change</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tickers.map((ticker: any) => (
-                  <TickerItem key={ticker.symbol} ticker={ticker} />
-                ))}
-              </tbody>
-            </table>
+            {tickers.length === 0 ? (
+              <Spinner />
+            ) : (
+              <Fragment>
+                <table className='table table-striped table-hover'>
+                  <thead>
+                    <tr>
+                      <th scope='col'>Symbol</th>
+                      <th scope='col'>Full Name</th>
+                      <th scope='col'>Price (in USD)</th>
+                      <th scope='col'>% Change</th>
+                      <th scope='col'>Market Change</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tickers.map((ticker: any) => (
+                      <TickerItem key={ticker.symbol} ticker={ticker} />
+                    ))}
+                  </tbody>
+                </table>
+              </Fragment>
+            )}
           </div>
         </Fragment>
       }

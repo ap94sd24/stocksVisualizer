@@ -32,9 +32,45 @@ ul {
   list-style: none;
 }
 
+.burgerIcon {
+  display: none;
+}
+
 @media screen and (max-width: 479px) {
   .navbar ul {
     display: block;
     width: 100vw;
+  }
+
+  .defaultMobile {
+    display: none;
+  }
+
+  .dropdown {
+    display: flex;
+    width: 100%;
+  }
+
+  .brandName {
+    font-size: 30px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .burgerIcon {
+    display: block;
+    color: white;
+    left: 70px;
+    top: 5px;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+
+  .navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

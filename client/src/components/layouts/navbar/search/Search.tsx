@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import './Search.scss';
 
+
 const Search = ({ getSearchMatch, searchList: { searchList } }: any) => {
   const history = useHistory();
   const [search, setSearch] = useState('');

@@ -1,9 +1,18 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
+import Spinner from '../layouts/spinner/Spinner';
+import PropTypes from 'prop-types';
 import SearchItem from './SearchItem';
+import { getSearchMatch } from '../../actions/ticker';
+import { useLocation } from 'react-router-dom'
 
-const SearchResults = ({ searchList: { searchList } }: any) => {
-  return (
+
+const SearchResults = ({getSearchMatch, searchList: { searchList, loading } }: any) => {
+  let location = useLocation();
+  useEffect(() => {
+    getSearchMatch(location.pathname.split('/')[2]);
+  }, []);
+  return (loading) ? (<Spinner/>) :  (
     <Fragment>
       <h1>Matched Results: </h1>
       <div className='row'>
@@ -29,8 +38,12 @@ const SearchResults = ({ searchList: { searchList } }: any) => {
   );
 };
 
+SearchResults.propTypes = {
+  getSearchMatch: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state: any) => ({
   searchList: state.ticker,
 });
 
-export default connect(mapStateToProps)(SearchResults);
+export default connect(mapStateToProps, {getSearchMatch})(SearchResults);

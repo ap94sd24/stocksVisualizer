@@ -32,6 +32,7 @@ export default function (state = initialState, action: any) {
         ticker: payload,
       };
     case GET_SEARCHLIST:
+      console.log('hi')
       return {
         ...state,
         loading: false,

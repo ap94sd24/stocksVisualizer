@@ -101,11 +101,11 @@ export const getStockInfoTimeSeries = (type: string, symbol: string) => async (
   }
 };
 
-export const getYesterdayTimeSeries = (symbol: string) => async (
+export const getYesterdayTimeSeries = (symbol: string, interval: string) => async (
   dispatch: any
 ) => {
   try {
-    const res = await axios.get(`/api/stockData/intraday/${symbol}`);
+    const res = await axios.get(`/api/stockData/intraday/${symbol}/${interval}`);
     dispatch({
       type: GET_INTRADAY,
       payload: res.data,

@@ -6,6 +6,7 @@ import TickerGraph from '../tickerGraph/TickerGraph';
 import { TickerSummary } from '../../default/ticker';
 import Spinner from '../layouts/spinner/Spinner';
 import './Stock.scss';
+import TickerGraphManager from '../tickerGraph/TickerGraphManager';
 
 const Stock = ({
   getTickerSummary,
@@ -62,7 +63,6 @@ const Stock = ({
       hours + ':' + min.substr(-2) + ':' + sec.substr(-2) + ' Local Time';
     return formatted;
   };
-  console.log('loading: ' + loading);
 
   return (summaryData.price.shortName === '') ? (
     <Spinner />
@@ -91,7 +91,7 @@ const Stock = ({
           </span>
         </div>
         <div className='col-12 mt-2'>
-          <TickerGraph match={match} />
+          <TickerGraphManager match={match.params.symbol} />
         </div>
         <div className='col-12 mt-3'>
           <h5>Stats</h5>

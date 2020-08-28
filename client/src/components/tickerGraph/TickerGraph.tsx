@@ -4,16 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
 
-interface TickerGraphProps {
-  getYesterdayTimeSeries: () => void;
-  intraday: { intraday: any};
-  match: {params: { symbol: string}}
-}
+ 
 
 const TickerGraph = ({
   getYesterdayTimeSeries,
   intraday: { intraday },
   match,
+  interval,
 }: any) => {
   const [chartData, setChartData] = useState({});
 
@@ -36,53 +33,66 @@ const TickerGraph = ({
   }, [intraday]);
 
   useEffect(() => {
-    getYesterdayTimeSeries(match.params.symbol);
-  }, [match.params.symbol]);
+    getYesterdayTimeSeries(match, interval);
+  }, [match, interval]);
+
+  const title = (interval: any) => {
+    if (interval === '60min') {
+      return 'Weekly Price Change';
+    } else {
+      return 'Intraday Change (As of Prior Market Day)';
+    }
+  }
+  console.log('interval: ' + interval);
   return (
     <Fragment>
-      <div>
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            title: {
-              text: 'Intraday Performance (As of Prior Day)',
-              display: true,
-            },
-            scales: {
-              yAxes: [
-                {
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 6,
-                    beginAtZero: false,
-                  },
-                  gridLines: {
-                    display: false,
-                  },
-                  scaleLabel: {
-                    display: true,
-                    labelString: 'Prices (USD)',
-                  },
-                },
-              ],
-              xAxes: [
-                {
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
-                  },
-                  gridLines: {
-                    display: true,
-                  },
-                },
-              ],
-              tooltips: {
-                enabled: false
+      <div className='row'>
+        <div className='col-12'>
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              title: {
+                text: title(interval),
+                display: true,
               },
-            },
-          }}
-        />
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      display: true,
+                      autoSkip: true,
+                      maxTicksLimit: 6,
+                      beginAtZero: false,
+                    },
+                    gridLines: {
+                      display: false,
+                    },
+                    scaleLabel: {
+                      display: false,
+                      labelString: 'Prices (USD)',
+                    },
+                  },
+                ],
+                xAxes: [
+                  {
+                    ticks: {
+                      display: true,
+                      autoSkip: true,
+                      maxTicksLimit: 7,
+                    },
+                    gridLines: {
+                      display: false,
+                    },
+                  },
+                ],
+                tooltips: {
+                  enabled: false,
+                },
+              },
+            }}
+          />
+        </div>
       </div>
     </Fragment>
   );

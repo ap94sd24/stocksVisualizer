@@ -5,8 +5,8 @@ A way to visualize stock listings and historical changes to better understand wh
 Created as a mean to see which stocks to invest or find trends in stock performances
 
 ## Build Status 
-MVP complete. 
-WIP: Authentication for users, watchlist, premium subscription services
+* MVP complete. 
+* WIP: Authentication for users, watchlist, premium subscription services
 
 ## Tech framework used 
 MERN (MongoDB, Express, React, NodeJS)

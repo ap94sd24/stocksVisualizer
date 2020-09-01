@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import TickerGraph from './TickerGraph';
+import Spinner from '../layouts/spinner/Spinner';
+import './TickerGraphManager.scss';
 
 interface Props {
   match: string;
@@ -8,7 +10,7 @@ const TickerGraphManager = (props: Props) => {
   const [intervalVal, setInterval] = useState('30min');
   return (
     <Fragment>
-      <div className='col-12'>
+      <div className='col-12 layout'>
         <div className='tab-content' id='pills-tabContent'>
           <div
             className='tab-pane fade show active'
@@ -16,7 +18,11 @@ const TickerGraphManager = (props: Props) => {
             role='tabpanel'
             aria-labelledby='pills-daily-tab'
           >
-            <TickerGraph match={props.match} interval={intervalVal} />
+            {intervalVal === '30min' ? (
+              <TickerGraph match={props.match} interval={intervalVal} />
+            ) : (
+              <Spinner />
+            )}
           </div>
           <div
             className='tab-pane fade'
@@ -24,7 +30,11 @@ const TickerGraphManager = (props: Props) => {
             role='tabpanel'
             aria-labelledby='pills-weekly-tab'
           >
-            <TickerGraph match={props.match} interval={intervalVal} />
+            {intervalVal === '60min' ? (
+              <TickerGraph match={props.match} interval={intervalVal} />
+            ) : (
+              <Spinner />
+            )}
           </div>
           <div
             className='tab-pane fade'
@@ -32,15 +42,11 @@ const TickerGraphManager = (props: Props) => {
             role='tabpanel'
             aria-labelledby='pills-monthly-tab'
           >
-            ...
-          </div>
-          <div
-            className='tab-pane fade'
-            id='pills-halfyear'
-            role='tabpanel'
-            aria-labelledby='pills-halfyear-tab'
-          >
-            shit
+            {intervalVal === 'month' ? (
+              <TickerGraph match={props.match} interval={intervalVal} />
+            ) : (
+              <Spinner />
+            )}
           </div>
           <div
             className='tab-pane fade'
@@ -48,7 +54,23 @@ const TickerGraphManager = (props: Props) => {
             role='tabpanel'
             aria-labelledby='pills-yearly-tab'
           >
-            shit
+            {intervalVal === 'year' ? (
+              <TickerGraph match={props.match} interval={intervalVal} />
+            ) : (
+              <Spinner />
+            )}
+          </div>
+          <div
+            className='tab-pane fade'
+            id='pills-all'
+            role='tabpanel'
+            aria-labelledby='pills-all-tab'
+          >
+            {intervalVal === 'all' ? (
+              <TickerGraph match={props.match} interval={intervalVal} />
+            ) : (
+              <Spinner />
+            )}
           </div>
         </div>
         <ul className='nav nav-pills mb-3' id='pills-tab' role='tablist'>
@@ -85,6 +107,7 @@ const TickerGraphManager = (props: Props) => {
               className='nav-link'
               id='pills-monthly-tab'
               data-toggle='pill'
+              onClick={() => setInterval('month')}
               href='#pills-monthly'
               role='tab'
               aria-controls='pills-monthly'
@@ -96,21 +119,9 @@ const TickerGraphManager = (props: Props) => {
           <li className='nav-item' role='presentation'>
             <a
               className='nav-link'
-              id='pills-halfyear-tab'
-              data-toggle='pill'
-              href='#pills-halfyear'
-              role='tab'
-              aria-controls='pills-halfyear'
-              aria-selected='false'
-            >
-              6M
-            </a>
-          </li>
-          <li className='nav-item' role='presentation'>
-            <a
-              className='nav-link'
               id='pills-yearly-tab'
               data-toggle='pill'
+              onClick={() => setInterval('year')}
               href='#pills-yearly'
               role='tab'
               aria-controls='pills-yearly'
@@ -124,6 +135,7 @@ const TickerGraphManager = (props: Props) => {
               className='nav-link'
               id='pills-all-tab'
               data-toggle='pill'
+              onClick={() => setInterval('all')}
               href='#pills-all'
               role='tab'
               aria-controls='pills-all'

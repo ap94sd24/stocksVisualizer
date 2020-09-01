@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
   GET_TICKERS,
   CLEAR_TICKERS,
-  GET_STOCK,
+  GET_CHART_DATA,
   GET_COMPANY,
   GET_SUMMARY,
   GET_INTRADAY,
@@ -87,7 +87,7 @@ export const getStockInfoTimeSeries = (type: string, symbol: string) => async (
   try {
     const res = await axios.get(`/api/stockData/stock/${type}/${symbol}`);
     dispatch({
-      type: GET_STOCK,
+      type: GET_CHART_DATA,
       payload: res.data,
     });
   } catch (error) {

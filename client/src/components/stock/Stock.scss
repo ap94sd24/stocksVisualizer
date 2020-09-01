@@ -1,10 +1,10 @@
 .marketPrice {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
 }
 
 .marketChange, .negativeChange {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
   margin-left: 1rem;
 }
@@ -21,3 +21,21 @@
   font-size: 14px;
   font-weight: 400;
 }
+
+.col-12, .col-6 {
+  padding: 0;
+}
+
+// mobile view
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    margin-top: 6em;
+  }
+
+  .wrapper {
+    width: 100%;
+  }
+
+}
+

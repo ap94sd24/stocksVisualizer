@@ -2,11 +2,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTickerSummary } from '../../actions/ticker';
-import TickerGraph from '../tickerGraph/TickerGraph';
 import { TickerSummary } from '../../default/ticker';
 import Spinner from '../layouts/spinner/Spinner';
 import './Stock.scss';
 import TickerGraphManager from '../tickerGraph/TickerGraphManager';
+import { roundMoney, formatPercent } from '../../utils/utils';
 
 const Stock = ({
   getTickerSummary,
@@ -64,10 +64,10 @@ const Stock = ({
     return formatted;
   };
 
-  return (summaryData.price.shortName === '') ? (
+  return summaryData.price.shortName === '' ? (
     <Spinner />
   ) : (
-    <Fragment>
+    <div className="wrapper ml-3">
       <h1>
         {headerData?.shortName} {'('} {match.params.symbol} {')'} <br />{' '}
         <p className='asOfText'>
@@ -75,54 +75,56 @@ const Stock = ({
         </p>
       </h1>
       <div className='row'>
-        <div className='col-12'>
+        <div className='col-12 ml-2'>
           <span className='marketPrice'>
             {headerData?.regularMarketPrice.raw}
           </span>
           <span
             className={marketChange > 0 ? 'marketChange' : 'negativeChange'}
           >
-            {headerData?.regularMarketChange.raw}
+            {marketChange > 0 ? '+' : ''}
+            {roundMoney(headerData?.regularMarketChange.raw)}
           </span>
           <span
             className={changePercent > 0 ? 'marketChange' : 'negativeChange'}
           >
-            {'('} {headerData?.regularMarketChangePercent.raw} {'%)'}
+            {'('} {formatPercent(headerData?.regularMarketChangePercent.raw)}{' '}
+            {'%)'}
           </span>
         </div>
         <div className='col-12 mt-2'>
           <TickerGraphManager match={match.params.symbol} />
         </div>
-        <div className='col-12 mt-3'>
+        <div className='col-12'>
           <h5>Stats</h5>
           <div className='row'>
-            <div className='col-6'>
+            <div className='col-12 col-md-6'>
               <table className='table'>
                 <tbody>
                   <tr>
-                    <th>Open</th>
-                    <th>{headerData?.regularMarketOpen.raw}</th>
+                    <td>Open</td>
+                    <td>{headerData?.regularMarketOpen.raw}</td>
                   </tr>
                   <tr>
-                    <th>High</th>
-                    <th>{headerData?.regularMarketDayHigh.raw}</th>
+                    <td>High</td>
+                    <td>{headerData?.regularMarketDayHigh.raw}</td>
                   </tr>
                   <tr>
-                    <th>Low</th>
-                    <th>{headerData?.regularMarketDayLow.raw} </th>
+                    <td>Low</td>
+                    <td>{headerData?.regularMarketDayLow.raw} </td>
                   </tr>
                   <tr>
-                    <th>52 Week High</th>
-                    <th> {summaryData?.summaryDetail.fiftyTwoWeekHigh.fmt}</th>
+                    <td>52 Week High</td>
+                    <td> {summaryData?.summaryDetail.fiftyTwoWeekHigh.fmt}</td>
                   </tr>
                   <tr>
-                    <th>52 Week Low</th>
-                    <th>{summaryData?.summaryDetail.fiftyTwoWeekLow.fmt}</th>
+                    <td>52 Week Low</td>
+                    <td>{summaryData?.summaryDetail.fiftyTwoWeekLow.fmt}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <div className='col-6'>
+            <div className='col-12 col-md-6'>
               <table className='table'>
                 <tbody>
                   <tr>
@@ -156,7 +158,7 @@ const Stock = ({
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

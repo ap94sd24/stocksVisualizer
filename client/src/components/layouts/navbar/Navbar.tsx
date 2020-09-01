@@ -5,8 +5,9 @@ import Search from './search/Search';
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  console.log('toggle: ' + toggle);
   const guestLinks = (
-    <div className={toggle ? 'defaultMobile' : 'dropdown'}>
+    <div className={toggle === false ? 'defaultMobile' : 'dropdown'}>
       <ul>
         <li>
           <Search />
@@ -20,18 +21,21 @@ const Navbar = () => {
 
   return (
     <nav className='navbar bg-dark'>
-      <h1>
-        <div className='row'>
-          <div className='col-8 col-md-12'>
+      <div className='row'>
+        <div className='col-10 col-md-12'>
+          <h1>
             <Link to='/' className='brandName'>
               StockVisualizer
             </Link>
-          </div>
-          <div className='col-4  burgerIcon'>
-            <i onClick={() => setToggle(!toggle)} className={!toggle ? 'fa fa-times' : 'fas fa-bars'}></i>
-          </div>
+          </h1>
         </div>
-      </h1>
+        <div className='col-2  burgerIcon'>
+          <i
+            onClick={() => setToggle(!toggle)}
+            className={toggle ? 'fa fa-times' : 'fas fa-bars'}
+          ></i>
+        </div>
+      </div>
       {<Fragment>{guestLinks}</Fragment>}
     </nav>
   );

@@ -128,29 +128,29 @@ const Stock = ({
               <table className='table'>
                 <tbody>
                   <tr>
-                    <th>Volume</th>
-                    <th>{summaryData?.price.regularMarketVolume.fmt}</th>
+                    <td>Volume</td>
+                    <td>{summaryData?.price.regularMarketVolume.fmt}</td>
                   </tr>
                   <tr>
-                    <th>Average Volume</th>
-                    <th>{summaryData?.summaryDetail.averageVolume.fmt}</th>
+                    <td>Average Volume</td>
+                    <td>{summaryData?.summaryDetail.averageVolume.fmt}</td>
                   </tr>
                   <tr>
-                    <th>Market Cap.</th>
-                    <th>{headerData?.marketCap.fmt}</th>
+                    <td>Market Cap.</td>
+                    <td>{headerData?.marketCap.fmt}</td>
                   </tr>
                   <tr>
-                    <th>Div/Yield</th>
-                    <th>
+                    <td>Div/Yield</td>
+                    <td>
                       {Object.keys(summaryData.summaryDetail.dividendYield)
                         .length > 0
                         ? summaryData?.summaryDetail.dividendYield.fmt
                         : '-'}
-                    </th>
+                    </td>
                   </tr>
                   <tr>
-                    <th>Previous Close</th>
-                    <th>{headerData?.regularMarketPreviousClose.raw}</th>
+                    <td>Previous Close</td>
+                    <td>{headerData?.regularMarketPreviousClose.raw}</td>
                   </tr>
                 </tbody>
               </table>

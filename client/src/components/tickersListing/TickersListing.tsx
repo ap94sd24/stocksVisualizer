@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import './TickersListing.scss';
+import TickersListingStyle from './TickersListing.module.scss';
 import TickerItem from './TickerItem';
 import { getTickers, getPollingTickers } from '../../actions/ticker';
 import Spinner from '../layouts/spinner/Spinner';

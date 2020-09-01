@@ -1,7 +1,7 @@
 import {
   GET_TICKERS,
   CLEAR_TICKERS,
-  GET_STOCK,
+  GET_CHART_DATA,
   GET_COMPANY,
   GET_SUMMARY,
   GET_INTRADAY,
@@ -12,7 +12,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  ticker: null,
+  tickerChart: null,
   company: null,
   summary: null,
   intraday: null,
@@ -25,14 +25,13 @@ const initialState = {
 export default function (state = initialState, action: any) {
   const { type, payload } = action;
   switch (type) {
-    case GET_STOCK:
+    case GET_CHART_DATA:
       return {
         ...state,
         loading: false,
-        ticker: payload,
+        tickerChart: payload,
       };
     case GET_SEARCHLIST:
-      console.log('hi')
       return {
         ...state,
         loading: false,
@@ -73,7 +72,7 @@ export default function (state = initialState, action: any) {
     case CLEAR_TICKERS:
       return {
         ...state,
-        ticker: null,
+        tickerChart: null,
         company: null,
         intraday: null,
         summary: null,

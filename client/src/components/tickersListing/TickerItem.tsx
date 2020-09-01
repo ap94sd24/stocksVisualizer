@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import TickersListingsStyle from './TickersListing.module.scss';
 
 interface TickerProps {
   ticker: {
@@ -9,7 +10,7 @@ interface TickerProps {
     regularMarketPrice: number;
     regularMarketChange: number;
     regularMarketChangePercent: number;
-  }
+  };
 }
 
 const TickerItem: React.SFC<any> = (props: TickerProps) => {
@@ -21,25 +22,27 @@ const TickerItem: React.SFC<any> = (props: TickerProps) => {
     changePercent: props.ticker.regularMarketChangePercent,
   };
   return (
-    <tr>
-      <th scope='col'>{tickerInfo.symbol}</th>
-      <th>
-        {' '}
-        <Link
-          to={{
-            pathname: `/stock/${tickerInfo.symbol}`,
-            state: {ticker: tickerInfo},
-          }}
-          className='itemLink'
-        >
+    <Fragment>
+      <tr className={TickersListingsStyle.tr}>
+        <td scope='col'>{tickerInfo.symbol}</td>
+        <td>
           {' '}
-          {tickerInfo.name}{' '}
-        </Link>
-      </th>
-      <th>{tickerInfo.price}</th>
-      <th>{tickerInfo.change}</th>
-      <th>{tickerInfo.changePercent}</th>
-    </tr>
+          <Link
+            to={{
+              pathname: `/stock/${tickerInfo.symbol}`,
+              state: { ticker: tickerInfo },
+            }}
+            className='itemLink'
+          >
+            {' '}
+            {tickerInfo.name}{' '}
+          </Link>
+        </td>
+        <td>{tickerInfo.price}</td>
+        <td>{tickerInfo.change}</td>
+        <td>{tickerInfo.changePercent}</td>
+      </tr>
+    </Fragment>
   );
 };
 

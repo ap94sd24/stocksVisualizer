@@ -19,17 +19,21 @@ const timePeriod = require('../../config/constants');
  * @route: GET
  */
 router.get('/stock/:type/:symbol', cors(), async (req, res) => {
+  let range = req.params.type;
+  range === 'all' || range === 'year' ? (range = 'monthly') : range;
+  range === 'month' ? (range = 'daily') : range;
   try {
     const api_res = await axios.get(
-      `https://www.alphavantage.co/query?function=${timePeriod(
-        req.params.type
-      )}&symbol=${req.params.symbol}&apikey=${
-        process.env.ALPHA_VANTAGE_API_KEY
-      }`
+      `https://www.alphavantage.co/query?function=${timePeriod(range)}&symbol=${
+        req.params.symbol
+      }&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
-    res.json(Object.values(api_res.data)[1]);
+
+    const output = getChartData(api_res.data, req.params.type);
+    res.json(output);
   } catch (err) {
-    console.error('Error message: ' + JSON.stringify(err, null, 2));
+    console.error(err.message);
+    res.status(500).send('Server error!');
   }
 });
 
@@ -48,11 +52,19 @@ router.get('/company/:symbol', cors(), async (req, res) => {
   }
 });
 
-function getIntradayGraphData(obj) {
+function getChartData(obj, time) {
   let arr = [];
   let dataPts = [];
   let labelPts = [];
-  let relevantObj = obj['Time Series (30min)'];
+  let filtered = [];
+  let relevantObj;
+  if (time === 'month') {
+    relevantObj = obj[`Time Series (Daily)`];
+  } else if (time === 'year' || time === 'all') {
+    relevantObj = obj[`Monthly Adjusted Time Series`];
+  } else {
+    relevantObj = obj[`Time Series (${time})`];
+  }
   let keys = Object.keys(relevantObj);
   for (let key in relevantObj) {
     arr.push(relevantObj[key]);
@@ -62,28 +74,54 @@ function getIntradayGraphData(obj) {
     arr[i].date = keys[i];
   }
 
-  let filtered = arr.slice(7, 22);
+  if (time === '30min' || time === '60min') {
+    if (time === '30min') {
+      filtered = arr.slice(7, 22);
+      labelPts = filtered.map((val) => val['date'].split(' ')[1]).reverse();
+    } else {
+      filtered = [...arr];
+      labelPts = filtered.map((val) => val['date']).reverse();
+    }
+    dataPts = filtered.map((val) => val['4. close']).reverse();
+  }
 
-  dataPts = filtered.map((val) => val['4. close']).reverse();
-  labelPts = filtered.map((val) => val['date'].split(' ')[1]).reverse();
+  if (time === 'month' || time === 'year' || time == 'all') {
+    if (time === 'month') {
+      // get daily data pts for month
+      filtered = arr.slice(0, 30);
+    } else if (time === 'year') {
+      // get monthly data pts for the year
+      filtered = arr.slice(0, 12);
+    } else {
+      // get all data pts by every half year
+      filtered = arr.filter(item => {
+        let val = item.date.split('-')[1];
+        if (val === '01' || val === '07') {
+          return item;
+        }
+      })
+    }
+    labelPts = filtered.map((val) => val['date']).reverse();
+    dataPts = filtered.map((val) => val['5. adjusted close']).reverse();
+  }
 
-  let output = {labels: labelPts, values: dataPts};
-  return output;
+  return { labels: labelPts, values: dataPts };
 }
 
 /**
  * Get intraday stock with type and ticker passed in
  */
-router.get('/intraday/:symbol', cors(), async (req, res) => {
-  const interval = '30min';
+router.get('/intraday/:symbol/:interval', cors(), async (req, res) => {
   try {
     const api_res = await axios.get(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.symbol}&interval=${interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+      `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${req.params.symbol}&interval=${req.params.interval}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
     );
-    let output = getIntradayGraphData(api_res.data);
+    let output = getChartData(api_res.data, req.params.interval);
     res.json(output);
   } catch (err) {
-    console.error('Error message: ' + JSON.stringify(err, null, 2));
+    console.error(err.message);
+    res.status(500).send('Server error!');
+    // console.error('Error message: ' + JSON.stringify(err, null, 2));
   }
 });
 

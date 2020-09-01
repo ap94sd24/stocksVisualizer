@@ -8,8 +8,10 @@ Created as a mean to see which stocks to invest or find trends in stock performa
 * MVP complete. 
 * WIP: Authentication for users, watchlist, premium subscription services
 
-## Tech framework used 
-MERN (MongoDB, Express, React, NodeJS); Data visualization: Chart.js
+## Tech Stacks
+* MERN (MongoDB, Express, React/Redux, NodeJS)
+* Data visualization: Chart.js
+* Deployment: Heroku
 
 ## Installation 
 * after git clone, run ```npm install```, and ```npm install -D concurrently nodemon```

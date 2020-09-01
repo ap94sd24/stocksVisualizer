@@ -5,7 +5,6 @@ import Search from './search/Search';
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  console.log('toggle: ' + toggle);
   const guestLinks = (
     <div className={toggle === false ? 'defaultMobile' : 'dropdown'}>
       <ul>

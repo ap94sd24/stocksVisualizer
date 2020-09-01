@@ -69,7 +69,6 @@ const TickerGraph = ({
       // monthly, yearly, all data
       getStockInfoTimeSeries(interval, match);
     }
-    //console.log('Call');
   }, [match, interval]);
 
   const title = (interval: string) => {

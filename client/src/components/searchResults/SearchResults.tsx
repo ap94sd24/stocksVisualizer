@@ -4,20 +4,25 @@ import Spinner from '../layouts/spinner/Spinner';
 import PropTypes from 'prop-types';
 import SearchItem from './SearchItem';
 import { getSearchMatch } from '../../actions/ticker';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import './SearchResults.scoped.scss';
 
-
-const SearchResults = ({getSearchMatch, searchList: { searchList, loading } }: any) => {
+const SearchResults = ({
+  getSearchMatch,
+  searchList: { searchList, loading },
+}: any) => {
   let location = useLocation();
   useEffect(() => {
     getSearchMatch(location.pathname.split('/')[2]);
   }, []);
-  return (loading) ? (<Spinner/>) :  (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <h1>Matched Results: </h1>
       <div className='row'>
         <div className='col-12'>
-          <table className="table table-striped table-hover">
+          <table className='table table-striped table-hover'>
             <thead>
               <tr>
                 <th scope='col'>Symbol</th>
@@ -27,9 +32,13 @@ const SearchResults = ({getSearchMatch, searchList: { searchList, loading } }: a
               </tr>
             </thead>
             <tbody>
-              {
-                searchList.length > 0 ? searchList.map((entry: any) => (<SearchItem key={entry["1. symbol"]} entry={entry} />)) :(<div>No results found!</div>)
-              }
+              {searchList.length > 0 ? (
+                searchList.map((entry: any) => (
+                  <SearchItem key={entry['1. symbol']} entry={entry} />
+                ))
+              ) : (
+                <div>No results found!</div>
+              )}
             </tbody>
           </table>
         </div>
@@ -46,4 +55,4 @@ const mapStateToProps = (state: any) => ({
   searchList: state.ticker,
 });
 
-export default connect(mapStateToProps, {getSearchMatch})(SearchResults);
+export default connect(mapStateToProps, { getSearchMatch })(SearchResults);

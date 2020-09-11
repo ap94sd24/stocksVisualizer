@@ -1,7 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import TickersListingsStyle from './TickersListing.module.scss';
+
+// Files imports
+import { roundMoney, formatPercent } from '../../utils/utils';
+import './TickersListing.scoped.scss';
 
 interface TickerProps {
   ticker: {
@@ -23,7 +26,7 @@ const TickerItem: React.SFC<any> = (props: TickerProps) => {
   };
   return (
     <Fragment>
-      <tr className={TickersListingsStyle.tr}>
+      <tr>
         <td scope='col'>{tickerInfo.symbol}</td>
         <td>
           {' '}
@@ -39,8 +42,8 @@ const TickerItem: React.SFC<any> = (props: TickerProps) => {
           </Link>
         </td>
         <td>{tickerInfo.price}</td>
-        <td>{tickerInfo.change}</td>
-        <td>{tickerInfo.changePercent}</td>
+        <td>{roundMoney(tickerInfo.change)}</td>
+        <td>{roundMoney(tickerInfo.changePercent)}</td>
       </tr>
     </Fragment>
   );

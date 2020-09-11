@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { getTickerSummary } from '../../actions/ticker';
 import { TickerSummary } from '../../default/ticker';
 import Spinner from '../layouts/spinner/Spinner';
-import './Stock.scss';
 import TickerGraphManager from '../tickerGraph/TickerGraphManager';
 import { roundMoney, formatPercent } from '../../utils/utils';
+import './Stock.scss';
 
 const Stock = ({
   getTickerSummary,

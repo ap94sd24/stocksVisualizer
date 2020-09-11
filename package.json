@@ -1,7 +1,7 @@
 {
-  "name": "mern_boilplate",
+  "name": "stock-visualizer",
   "version": "1.0.0",
-  "description": "MERN template",
+  "description": "An app to see stock performance and analytics details",
   "main": "server.js",
   "scripts": {
     "start": "node server",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ap94sd24/MERN_BOILPLATE.git"
+    "url": "git+https://github.com/ap94sd24/stocksVisualizer.git"
   },
   "author": "Adam Pan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ap94sd24/MERN_BOILPLATE/issues"
+    "url": "https://github.com/ap94sd24/stocksVisualizer/issues"
   },
-  "homepage": "https://github.com/ap94sd24/MERN_BOILPLATE#readme",
+  "homepage": "https://github.com/ap94sd24/stocksVisualizer#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
@@ -32,7 +32,7 @@
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.12",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.2"
   },
   "devDependencies": {

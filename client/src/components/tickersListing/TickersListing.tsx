@@ -43,8 +43,8 @@ const TickersListing: React.SFC<Props> = (props: Props) => {
                       <th scope='col'>Symbol</th>
                       <th scope='col'>Full Name</th>
                       <th scope='col'>Price (in USD)</th>
-                      <th scope='col'>% Change</th>
                       <th scope='col'>Market Change</th>
+                      <th scope='col'>% Change</th>
                     </tr>
                   </thead>
                   <tbody>
